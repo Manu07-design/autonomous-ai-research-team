@@ -4,7 +4,7 @@ from agents.critic import critic_agent
 from agents.planner import planner_agent
 
 
-def orchestrator(query):
+def run_system(query):
 
     # Step 1: Research
     data = research_agent(query)

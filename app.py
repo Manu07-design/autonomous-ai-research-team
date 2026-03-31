@@ -1,10 +1,24 @@
-import streamlit as st
+from flask import Flask, request, jsonify
 from orchestrator import run_system
+import os
 
-st.title("Autonomous AI Research Team")
+app = Flask(__name__)
 
-query = st.text_input("Ask a research question")
+@app.route("/")
+def home():
+    return "Autonomous AI Research Team Running 🚀"
 
-if query:
-    result = run_system(query)
-    st.write(result)
+@app.route("/query", methods=["POST"])
+def query():
+    data = request.json
+    q = data.get("query")
+
+    answer = run_system(q)
+
+    return jsonify({
+        "answer": answer
+    })
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
